@@ -11,10 +11,10 @@
   </head>
   <body>
     <div class="uploadWrapper">
-      <img class="imgPreview" id="imgDisplay" src="" />
+      <img draggable="false" class="imgPreview" id="imgDisplay" src="" />
       <form method="post" enctype="multipart/form-data" onsubmit="postImage(event);">
-        <input onchange="preview()" type="file" id="img" name="image" accept="image/*" />
-        <input type="submit" />
+        <input onchange="preview()" type="file" id="img" name="image" accept="image/jpeg" />
+        <input class="btn" type="submit" />
       </form>
     </div>
   </body>
