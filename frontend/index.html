@@ -10,11 +10,12 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <form method="post" enctype="multipart/form-data" onsubmit="postImage(event);">
-      <label for="img">Select image:</label>
-      <input onchange="preview()" type="file" id="img" name="image" accept="image/*" />
-      <input type="submit" />
-    </form>
-    <img class="imgPreview" id="imgDisplay" src="" />
+    <div class="uploadWrapper">
+      <img class="imgPreview" id="imgDisplay" src="" />
+      <form method="post" enctype="multipart/form-data" onsubmit="postImage(event);">
+        <input onchange="preview()" type="file" id="img" name="image" accept="image/*" />
+        <input type="submit" />
+      </form>
+    </div>
   </body>
 </html>

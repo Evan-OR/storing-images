@@ -3,7 +3,6 @@ const preview = () => {
   const file = document.getElementById('img').files[0];
 
   imgElement.src = URL.createObjectURL(file);
-  console.log(file);
 };
 
 const postImage = async (e) => {
