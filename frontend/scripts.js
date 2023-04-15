@@ -8,26 +8,25 @@ const preview = () => {
 
 const postImage = async (e) => {
   e.preventDefault();
+
   const file = document.getElementById('img').files[0];
+  let fd = new FormData();
+  fd.append('image', file, 'img.jpeg');
 
   const req = await fetch(`http://localhost:8080/upload`, {
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
     method: 'post',
-    body: URL.createObjectURL(file),
+    body: fd,
   });
 
   const res = await req.json();
   console.log(res);
 };
 
-const getImages = async () => {
-  const req = await fetch(`http://localhost:8080/images`);
-  const res = await req.json();
-  console.log(res[0].image);
+// const getImages = async () => {
+//   const req = await fetch(`http://localhost:8080/images`);
+//   const res = await req.json();
+//   console.log(res[0].image);
 
-  const buff = Buffer.from(res[0].image.data);
-  const blob = new Blob([buff]);
-};
+//   const buff = Buffer.from(res[0].image.data);
+//   const blob = new Blob([buff]);
+// };

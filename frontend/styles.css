@@ -1,3 +1,9 @@
+body {
+  background-color: rgb(37, 37, 37);
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
 .imgPreview {
-  width: 600px;
+  width: 900px;
 }

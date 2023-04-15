@@ -1,6 +1,7 @@
 const express = require('express');
 const fs = require('node:fs');
 const mysql = require('mysql2');
+const multer = require('multer');
 require('dotenv').config();
 const app = express();
 const PORT = 8080;
@@ -14,6 +15,8 @@ app.use(function (req, res, next) {
   res.setHeader('Access-Control-Allow-Credentials', true);
   next();
 });
+
+const upload = multer({ storage: multer.memoryStorage() });
 
 const { HOST, USER, PASSWORD, DATABASE } = process.env;
 
@@ -32,11 +35,11 @@ connection.connect((err) => {
   }
 });
 
-app.post('/upload', (req, res) => {
+app.post('/upload', upload.single('image'), (req, res) => {
   const sql = 'insert into image_store (image) values (?)';
-  console.log(req.body);
+  const img = req.file.buffer.toString('base64');
 
-  connection.execute(sql, [req.body], (err) => {
+  connection.execute(sql, [img], (err) => {
     if (err) {
       res.status(500).send({ message: 'SEVER ERROR' });
       throw err;
@@ -45,14 +48,14 @@ app.post('/upload', (req, res) => {
   });
 });
 
-app.get('/images', (req, res) => {
-  connection.query('select * from image_store', (err, results, tables) => {
-    if (err) {
-      res.status(500).send({ message: 'SEVER ERROR' });
-      throw err;
-    }
-    res.status(200).send(results);
-  });
-});
+// app.get('/images', (req, res) => {
+//   connection.query('select * from image_store', (err, results, tables) => {
+//     if (err) {
+//       res.status(500).send({ message: 'SEVER ERROR' });
+//       throw err;
+//     }
+//     res.status(200).send(results);
+//   });
+// });
 
 app.listen(PORT, () => console.log(`Running on http://localhost:${PORT}`));
