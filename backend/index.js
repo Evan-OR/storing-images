@@ -32,17 +32,26 @@ connection.connect((err) => {
   }
 });
 
-app.get('/upload', (req, res) => {
-  const { image } = req.params;
+app.post('/upload', (req, res) => {
   const sql = 'insert into image_store (image) values (?)';
   console.log(req.body);
 
-  connection.execute(sql, [image], (err) => {
+  connection.execute(sql, [req.body], (err) => {
     if (err) {
       res.status(500).send({ message: 'SEVER ERROR' });
       throw err;
     }
     res.status(200).send({ message: 'image Uploaded' });
+  });
+});
+
+app.get('/images', (req, res) => {
+  connection.query('select * from image_store', (err, results, tables) => {
+    if (err) {
+      res.status(500).send({ message: 'SEVER ERROR' });
+      throw err;
+    }
+    res.status(200).send(results);
   });
 });
 
