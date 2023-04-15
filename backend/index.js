@@ -48,14 +48,20 @@ app.post('/upload', upload.single('image'), (req, res) => {
   });
 });
 
-// app.get('/images', (req, res) => {
-//   connection.query('select * from image_store', (err, results, tables) => {
-//     if (err) {
-//       res.status(500).send({ message: 'SEVER ERROR' });
-//       throw err;
-//     }
-//     res.status(200).send(results);
-//   });
-// });
+app.get('/images', (req, res) => {
+  connection.query('select * from image_store', (err, results, tables) => {
+    if (err) {
+      res.status(500).send({ message: 'SEVER ERROR' });
+      throw err;
+    }
+    const imageInBase64 = results[0].image;
+    const img = Buffer.from(imageInBase64, 'base64');
+    res.writeHead(200, {
+      'Content-Type': 'image/png',
+      'Content-Length': img.length,
+    });
+    res.end(img);
+  });
+});
 
 app.listen(PORT, () => console.log(`Running on http://localhost:${PORT}`));
