@@ -9,8 +9,14 @@ const postImage = async (e) => {
   e.preventDefault();
 
   const file = document.getElementById('img').files[0];
+  const imageWidth = document.getElementById('imgDisplay').naturalWidth;
+  const imageHeigh = document.getElementById('imgDisplay').naturalHeight;
+
   let fd = new FormData();
+
   fd.append('image', file, 'img.jpeg');
+  fd.append('width', imageWidth);
+  fd.append('height', imageHeigh);
 
   const req = await fetch(`http://localhost:8080/upload`, {
     method: 'post',
