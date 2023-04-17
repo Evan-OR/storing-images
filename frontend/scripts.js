@@ -27,14 +27,16 @@ const postImage = async (e) => {
   console.log(res);
 };
 
-const getImages = async () => {
+const getImages = async (getSmall) => {
   const req = await fetch(`http://localhost:8080/images`);
   const res = await req.json();
   console.log(res);
 
   let html = '';
-  res.forEach((el) => {
-    html += `<img class="img" src='${el.imageLink}' />`;
+  res.forEach((imageInfo) => {
+    const link = getSmall ? imageInfo.smallImageLink : imageInfo.imageLink;
+    console.log(link);
+    html += `<img class="img" src='${link}' />`;
   });
 
   document.getElementById('imagesDisplay').innerHTML = html;
