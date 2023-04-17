@@ -4,7 +4,6 @@ const imageUploading = (req, res, conn) => {
   const sql = 'insert into image_store (image_base64, image_small_base64) values (?,?);';
 
   const img = req.file.buffer.toString('base64');
-  console.log(req.file.buffer);
   const { width, height } = req.body;
 
   const w = Math.round(width / 4);

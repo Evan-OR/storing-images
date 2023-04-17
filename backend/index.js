@@ -1,12 +1,12 @@
-const express = require('express');
 const fs = require('node:fs');
+const express = require('express');
 const mysql = require('mysql2');
 const multer = require('multer');
 require('dotenv').config();
 const app = express();
 const PORT = 8080;
 const image = require('./modules/imageProcessing');
-const getImage = require('./modules/retrieveImages');
+const { getImageById, getImageInfo } = require('./modules/retrieveImages');
 
 app.use(express.json());
 
@@ -37,25 +37,15 @@ connection.connect((err) => {
   }
 });
 
+// UPLOAD
 app.post('/upload', upload.single('image'), (req, res) => image.imageUploading(req, res, connection));
 
-app.get('/image/:id/', (req, res) => getImage(req, res, connection));
-app.get('/image/small/:id/', (req, res) => getImage(req, res, connection, true));
+// GET IMAGE BY ID
+app.get('/image/:id/', (req, res) => getImageById(req, res, connection));
+app.get('/image/small/:id/', (req, res) => getImageById(req, res, connection, true));
 
-app.get('/images', (req, res) => {
-  connection.query('SELECT id FROM images.image_store;', (err, results) => {
-    if (err) {
-      res.status(500).send({ message: 'SEVER ERROR' });
-      throw err;
-    }
-
-    res.status(200).send(
-      results.map((row) => {
-        return { imageId: row.id, imageLink: `http://localhost:${PORT}/image/${row.id}` };
-      })
-    );
-  });
-});
+// GET ALL IMAGES
+app.get('/images', (req, res) => getImageInfo(req, res, connection));
 
 app.listen(PORT, () => {
   console.log(`Running on http://localhost:${PORT}`);

@@ -1,4 +1,4 @@
-const getImage = (req, res, conn, getSmall) => {
+const getImageById = (req, res, conn, getSmall) => {
   const { id } = req.params;
   const column = getSmall ? 'image_small_base64' : 'image_base64';
 
@@ -10,7 +10,6 @@ const getImage = (req, res, conn, getSmall) => {
       throw err;
     }
     const imageInBase64 = results[0][column];
-    console.log(results[0]);
     const img = Buffer.from(imageInBase64, 'base64');
     res.writeHead(200, {
       'Content-Type': 'image/jpeg',
@@ -20,4 +19,23 @@ const getImage = (req, res, conn, getSmall) => {
   });
 };
 
-module.exports = getImage;
+const getImageInfo = (req, res, conn) => {
+  conn.query('SELECT id FROM images.image_store;', (err, results) => {
+    if (err) {
+      res.status(500).send({ message: 'SEVER ERROR' });
+      throw err;
+    }
+
+    res.status(200).send(
+      results.map((row) => {
+        return {
+          imageId: row.id,
+          imageLink: `http://localhost:8080/image/${row.id}`,
+          smallImageLink: `http://localhost:8080/image/small/${row.id}`,
+        };
+      })
+    );
+  });
+};
+
+module.exports = { getImageById, getImageInfo };
