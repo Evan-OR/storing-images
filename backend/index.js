@@ -5,6 +5,7 @@ const multer = require('multer');
 require('dotenv').config();
 const app = express();
 const PORT = 8080;
+const setup = require('./modules/setup');
 
 app.use(express.json());
 
@@ -36,7 +37,7 @@ connection.connect((err) => {
 });
 
 app.post('/upload', upload.single('image'), (req, res) => {
-  const sql = 'insert into image_store (image) values (?)';
+  const sql = 'insert into image_store (image_base64) values (?)';
   const img = req.file.buffer.toString('base64');
 
   connection.execute(sql, [img], (err) => {
@@ -48,13 +49,16 @@ app.post('/upload', upload.single('image'), (req, res) => {
   });
 });
 
-app.get('/images', (req, res) => {
-  connection.query('select * from image_store', (err, results, tables) => {
+app.get('/image/:id', (req, res) => {
+  const { id } = req.params;
+  const sql = 'select * from image_store where id = ?';
+
+  connection.execute(sql, [id], (err, results, tables) => {
     if (err) {
       res.status(500).send({ message: 'SEVER ERROR' });
       throw err;
     }
-    const imageInBase64 = results[0].image;
+    const imageInBase64 = results[0].image_base64;
     const img = Buffer.from(imageInBase64, 'base64');
     res.writeHead(200, {
       'Content-Type': 'image/png',
@@ -64,4 +68,21 @@ app.get('/images', (req, res) => {
   });
 });
 
-app.listen(PORT, () => console.log(`Running on http://localhost:${PORT}`));
+app.get('/images', (req, res) => {
+  connection.query('SELECT id FROM images.image_store;', (err, results, tables) => {
+    if (err) {
+      res.status(500).send({ message: 'SEVER ERROR' });
+      throw err;
+    }
+
+    res.status(200).send(
+      results.map((row) => {
+        return { imageId: row.id, imageLink: `http://localhost:${PORT}/image/${row.id}` };
+      })
+    );
+  });
+});
+
+app.listen(PORT, () => {
+  console.log(`Running on http://localhost:${PORT}`);
+});

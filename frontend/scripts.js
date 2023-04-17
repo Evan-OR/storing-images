@@ -21,11 +21,15 @@ const postImage = async (e) => {
   console.log(res);
 };
 
-// const getImages = async () => {
-//   const req = await fetch(`http://localhost:8080/images`);
-//   const res = await req.json();
-//   console.log(res[0].image);
+const getImages = async () => {
+  const req = await fetch(`http://localhost:8080/images`);
+  const res = await req.json();
+  console.log(res);
 
-//   const buff = Buffer.from(res[0].image.data);
-//   const blob = new Blob([buff]);
-// };
+  let html = '';
+  res.forEach((el) => {
+    html += `<img class="img" src='${el.imageLink}' />`;
+  });
+
+  document.getElementById('imagesDisplay').innerHTML = html;
+};
