@@ -9,6 +9,12 @@ const getImageById = (req, res, conn, getSmall) => {
       res.status(500).send({ message: 'SEVER ERROR' });
       throw err;
     }
+
+    if (results.length < 1) {
+      res.status(404).send({ message: `No image with id ${id} found.` });
+      return;
+    }
+
     const imageInBase64 = results[0][column];
     const img = Buffer.from(imageInBase64, 'base64');
     res.writeHead(200, {
