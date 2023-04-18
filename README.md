@@ -2,9 +2,9 @@
 
 This project aims to test storing and retrieving images in MySQL.
 
-# What was Learned :thinking:
+# What was Learned :mortar_board:
 
-### Image Storage Fundamental & Best Practices
+### Image Storage Fundamental & Best Practices :closed_book:
 
 To store images, the process involved converting the frontend image into a formData object, which was then base64 encoded before being stored as MySQL TEXT. On the other hand, to retrieve images, the MySQL TEXT data was base64 decoded and then rendered as an image in the frontend.
 
