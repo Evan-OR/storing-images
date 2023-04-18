@@ -20,7 +20,7 @@ const getImageById = (req, res, conn, getSmall) => {
 };
 
 const getImageInfo = (req, res, conn) => {
-  conn.query('SELECT id FROM images.image_store;', (err, results) => {
+  conn.query('SELECT id, image_orientation FROM images.image_store;', (err, results) => {
     if (err) {
       res.status(500).send({ message: 'SEVER ERROR' });
       throw err;
@@ -32,6 +32,7 @@ const getImageInfo = (req, res, conn) => {
           imageId: row.id,
           imageLink: `http://localhost:8080/image/${row.id}`,
           smallImageLink: `http://localhost:8080/image/small/${row.id}`,
+          orientation: row.image_orientation,
         };
       })
     );

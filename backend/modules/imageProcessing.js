@@ -1,10 +1,10 @@
 const sharp = require('sharp');
 
 const imageUploading = (req, res, conn) => {
-  const sql = 'insert into image_store (image_base64, image_small_base64) values (?,?);';
+  const sql = 'insert into image_store (image_base64, image_small_base64, image_orientation) values (?,?,?);';
 
   const img = req.file.buffer.toString('base64');
-  const { width, height } = req.body;
+  const { width, height, orientation } = req.body;
 
   const w = Math.round(width / 4);
   const h = Math.round(height / 4);
@@ -16,7 +16,7 @@ const imageUploading = (req, res, conn) => {
     .then((data) => {
       const downScaledImage = data.toString('base64');
 
-      conn.execute(sql, [img, downScaledImage], (err) => {
+      conn.execute(sql, [img, downScaledImage, orientation], (err) => {
         if (err) {
           res.status(500).send({ message: 'SEVER ERROR' });
           throw err;
