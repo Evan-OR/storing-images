@@ -7,6 +7,7 @@ const app = express();
 const PORT = 8080;
 const image = require('./modules/imageProcessing');
 const { getImageById, getImageInfo } = require('./modules/retrieveImages');
+const { videoUpload } = require('./modules/videoProcessing');
 
 app.use(express.json());
 
@@ -38,7 +39,8 @@ connection.connect((err) => {
 });
 
 // UPLOAD
-app.post('/upload', upload.single('image'), (req, res) => image.imageUploading(req, res, connection));
+app.post('/image/upload', upload.single('image'), (req, res) => image.imageUploading(req, res, connection));
+app.post('/video/upload', upload.single('video'), (req, res) => videoUpload(req, res, connection));
 
 // GET IMAGE BY ID
 app.get('/image/:id/', (req, res) => getImageById(req, res, connection));

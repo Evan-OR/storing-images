@@ -10,6 +10,7 @@ const postVideo = async (e) => {
   fd.append('video', file, 'vid.mp4');
   fd.append('width', CURRENT_VIDEO_WIDTH);
   fd.append('height', CURRENT_VIDEO_HEIGHT);
+  fd.append('orientation', CURRENT_VIDEO_WIDTH > CURRENT_VIDEO_HEIGHT ? 'landscape' : 'portrait');
 
   const req = await fetch(`http://localhost:8080/video/upload`, {
     method: 'post',
