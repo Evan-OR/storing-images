@@ -8,6 +8,7 @@ const PORT = 8080;
 const image = require('./modules/imageProcessing');
 const { getImageById, getImageInfo } = require('./modules/retrieveImages');
 const { videoUpload } = require('./modules/videoProcessing');
+const { getVideoById } = require('./modules/retrieveVideo');
 
 app.use(express.json());
 
@@ -45,6 +46,9 @@ app.post('/video/upload', upload.single('video'), (req, res) => videoUpload(req,
 // GET IMAGE BY ID
 app.get('/image/:id/', (req, res) => getImageById(req, res, connection));
 app.get('/image/small/:id/', (req, res) => getImageById(req, res, connection, true));
+
+// GET VIDEO BY ID getVideoById
+app.get('/video/:id/', (req, res) => getVideoById(req, res, connection));
 
 // GET ALL IMAGES
 app.get('/images', (req, res) => getImageInfo(req, res, connection));
