@@ -28,7 +28,7 @@ const postImage = async (e) => {
   fd.append('height', imageHeigh);
   fd.append('orientation', orientation);
 
-  const req = await fetch(`http://localhost:8080/upload`, {
+  const req = await fetch(`http://localhost:8080/image/upload`, {
     method: 'post',
     body: fd,
   });

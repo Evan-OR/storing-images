@@ -6,14 +6,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Image Upload</title>
 
-    <script src="scripts.js" defer></script>
+    <script src="imageProcessing.js" defer></script>
+    <script src="videoProcessing.js" defer></script>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <div class="uploadWrapper">
       <img draggable="false" class="imgPreview" id="imgDisplay" src="" />
+      <h2>Image Upload</h2>
       <form method="post" enctype="multipart/form-data" onsubmit="postImage(event);">
         <input onchange="preview()" type="file" id="img" name="image" accept="image/jpeg" />
+        <input class="btn" type="submit" />
+      </form>
+
+      <!-- VIDEO FORM -->
+      <h2>Video Upload</h2>
+      <form method="post" enctype="multipart/form-data" onsubmit="postVideo(event)">
+        <input onchange="previewVideo()" type="file" id="vid" name="video" accept="video/mp4" />
         <input class="btn" type="submit" />
       </form>
     </div>
@@ -21,6 +30,12 @@
       <button class="btn" onclick="getImages()">Show All Images</button>
       <button class="btn" onclick="getImages(true)">Show All Images (Small)</button>
       <div id="imagesDisplay" class="imagesDisplay"></div>
+    </div>
+    <div>
+      <video width="500px" height="350px" id="videoPreviw" controls>
+        <source id="videoSrc" src="" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
     </div>
   </body>
 </html>
