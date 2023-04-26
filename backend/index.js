@@ -7,7 +7,7 @@ const app = express();
 const PORT = 8080;
 const image = require('./modules/imageProcessing');
 const { getImageById, getImageInfo } = require('./modules/retrieveImages');
-const { videoUpload } = require('./modules/videoProcessing');
+const { videoUpload, convertVideoToBase64 } = require('./modules/videoProcessing');
 const { getVideoById } = require('./modules/retrieveVideo');
 
 app.use(express.json());
@@ -55,4 +55,5 @@ app.get('/images', (req, res) => getImageInfo(req, res, connection));
 
 app.listen(PORT, () => {
   console.log(`Running on http://localhost:${PORT}`);
+  convertVideoToBase64();
 });
