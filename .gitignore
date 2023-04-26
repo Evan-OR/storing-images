@@ -1,4 +1,5 @@
 backend/node_modules
 .env
 *.pem
-video.txt
+*.txt
+*.mp4
