@@ -34,5 +34,7 @@ const previewVideo = () => {
   video.addEventListener('loadedmetadata', (e) => {
     video.height = e.target.videoHeight / 4;
     video.width = e.target.videoWidth / 4;
+    CURRENT_VIDEO_WIDTH = e.target.videoWidth;
+    CURRENT_VIDEO_HEIGHT = e.target.videoHeight;
   });
 };
