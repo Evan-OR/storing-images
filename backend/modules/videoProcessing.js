@@ -26,4 +26,15 @@ const convertVideoToBase64 = () => {
   });
 };
 
-module.exports = { videoUpload, convertVideoToBase64 };
+const convertFromBase64ToMp4 = () => {
+  fs.readFile(__dirname + '/video.txt', (err, data) => {
+    if (err) throw err;
+    const video = Buffer.from(data, 'base64');
+    fs.writeFile('video.mp4', data, (err) => {
+      if (err) throw err;
+      console.log('done');
+    });
+  });
+};
+
+module.exports = { videoUpload, convertVideoToBase64, convertFromBase64ToMp4 };
