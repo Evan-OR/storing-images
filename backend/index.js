@@ -13,7 +13,7 @@ const { getVideoById } = require('./modules/retrieveVideo');
 app.use(express.json());
 
 app.use(function (req, res, next) {
-  res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:5500');
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
   res.setHeader('Access-Control-Allow-Headers', 'content-type');
   res.setHeader('Access-Control-Allow-Credentials', true);
@@ -55,5 +55,4 @@ app.get('/images', (req, res) => getImageInfo(req, res, connection));
 
 app.listen(PORT, () => {
   console.log(`Running on http://localhost:${PORT}`);
-  convertFromBase64ToMp4();
 });
